@@ -1,5 +1,6 @@
 package com.hxtruonglhsang.cooky;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -9,9 +10,16 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.hxtruonglhsang.cooky.fragment.AddFragment;
 import com.hxtruonglhsang.cooky.fragment.HomeFragment;
+import com.hxtruonglhsang.cooky.fragment.ProfileFragment;
+import com.hxtruonglhsang.cooky.fragment.SavedFragment;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements
+        HomeFragment.OnFragmentInteractionListener,
+        AddFragment.OnFragmentInteractionListener,
+        ProfileFragment.OnFragmentInteractionListener,
+        SavedFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +29,7 @@ public class MainActivity extends AppCompatActivity{
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        //loadFragment(new HomeFragment());
+        loadFragment(new HomeFragment());
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener=
@@ -31,25 +39,20 @@ public class MainActivity extends AppCompatActivity{
                     Fragment fragment;
                     switch (item.getItemId()) {
                         case R.id.navigation_home:
-                            //fragment = new HomeFragment();
-                            //loadFragment(fragment);
-                            Toast.makeText(getApplicationContext(),"Home",Toast.LENGTH_SHORT).show();
+                            fragment = new HomeFragment();
+                            loadFragment(fragment);
                             return true;
                         case R.id.navigation_add:
-                            //fragment = new AddFragment();
-                            //loadFragment(fragment);
-                            Toast.makeText(getApplicationContext(),"Add",Toast.LENGTH_SHORT).show();
-
-                            return true;
+                            fragment = new AddFragment();
+                            loadFragment(fragment);
+                           return true;
                         case R.id.navigation_saved:
-                            //fragment = new SavedFragment();
-                            //loadFragment(fragment);
-                            Toast.makeText(getApplicationContext(),"Saved",Toast.LENGTH_SHORT).show();
+                            fragment = new SavedFragment();
+                            loadFragment(fragment);
                             return true;
                         case R.id.navigation_profile:
-                            //fragment = new ProfileFragment();
-                            //loadFragment(fragment);
-                            Toast.makeText(getApplicationContext(),"Profile",Toast.LENGTH_SHORT).show();
+                            fragment = new ProfileFragment();
+                            loadFragment(fragment);
                             return true;
                     }
                     return false;
@@ -63,4 +66,8 @@ public class MainActivity extends AppCompatActivity{
         transaction.commit();
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
