@@ -62,11 +62,12 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="15dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginTop="2dp"
                     android:textColor="#9f9f9f"
                     android:text="5"
@@ -78,8 +79,17 @@
                     android:button="@null"
                     android:background="@drawable/ic_like"
                     android:checked="false"
-                    android:layout_marginLeft="7dp"/>
+                    android:layout_marginLeft="7dp"
+                    android:stateListAnimator="@drawable/anim_scale"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="37dp"
+                    android:layout_marginTop="2dp"
+                    android:textColor="#9f9f9f"
+                    android:text="2"
+                    android:id="@+id/cmtNumber"/>
                 <CheckBox
                     android:id="@+id/ck_cmt"
                     android:layout_width="24dp"
@@ -87,9 +97,8 @@
                     android:button="@null"
                     android:background="@drawable/ic_mode_comment_24dp"
                     android:checked="false"
-                    android:layout_marginLeft="37dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="1dp"/>
 
                 <CheckBox
                     android:id="@+id/ck_share"
