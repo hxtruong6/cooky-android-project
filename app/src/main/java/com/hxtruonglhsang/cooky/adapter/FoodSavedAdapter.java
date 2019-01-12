@@ -39,7 +39,7 @@ public class FoodSavedAdapter extends ArrayAdapter<Food> {
 
         user.setText(food.getUserId());
         foodName.setText(food.getName());
-        Picasso.with(context).load(food.getImgs().get(0)).error(R.mipmap.ic_launcher).into(imageList);
+        Picasso.with(context).load(food.getImages().get(0)).error(R.mipmap.ic_launcher).into(imageList);
 
         return convertView;
     }

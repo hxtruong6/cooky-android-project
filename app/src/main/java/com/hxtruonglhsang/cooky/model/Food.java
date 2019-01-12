@@ -7,8 +7,8 @@ public class Food {
     private String name;
     private String userId; //username
     private List<String> likes; //username
-    private List<Resource> resources;
-    private List<String> imgs;      //finished
+    private List<Ingredient> ingredients;
+    private List<String> images;      //finished
     private List<Step> steps;
     private String description;
 
@@ -44,20 +44,20 @@ public class Food {
         this.likes = likes;
     }
 
-    public List<Resource> getResources() {
-        return resources;
+    public List<Ingredient> getIngredients() {
+        return ingredients;
     }
 
-    public void setResources(List<Resource> resources) {
-        this.resources = resources;
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
-    public List<String> getImgs() {
-        return imgs;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setImgs(List<String> imgs) {
-        this.imgs = imgs;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
     public List<Step> getSteps() {

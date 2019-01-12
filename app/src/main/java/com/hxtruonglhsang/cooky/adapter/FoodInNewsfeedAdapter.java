@@ -1,6 +1,5 @@
 package com.hxtruonglhsang.cooky.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.LayoutInflater;
@@ -47,7 +46,7 @@ public class FoodInNewsfeedAdapter extends ArrayAdapter<Food> {
         user.setText(food.getUserId());
         foodName.setText(food.getName());
         foodDescription.setText(food.getDescription().substring(0,food.getDescription().length()>80? 80:food.getDescription().length())+"...");
-        Picasso.with(context).load(food.getImgs().get(0)).error(R.mipmap.ic_launcher).into(imageList);
+        Picasso.with(context).load(food.getImages().get(0)).error(R.mipmap.ic_launcher).into(imageList);
 
         like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

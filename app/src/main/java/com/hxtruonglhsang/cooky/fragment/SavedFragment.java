@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.hxtruonglhsang.cooky.R;
-import com.hxtruonglhsang.cooky.adapter.FoodInNewsfeedAdapter;
 import com.hxtruonglhsang.cooky.adapter.FoodSavedAdapter;
 import com.hxtruonglhsang.cooky.model.Food;
 
@@ -59,7 +58,7 @@ public class SavedFragment extends Fragment {
         Food food =new Food();
         List<String> img =new ArrayList<>(); img.add("https://static.vietnammm.com/images/restaurants/vn/NP373OQ/products/mi-quang-dac-biet.png");
 
-        food.setName("Mỳ quảng"); food.setImgs(img); food.setUserId("lhsang"); food.setLikes(img);
+        food.setName("Mỳ quảng"); food.setImages(img); food.setUserId("lhsang"); food.setLikes(img);
         food.setDescription("Mì Quảng là một món ăn đặc trưng của Quảng Nam, Việt Nam, cùng với món cao lầu.\n" +
                 "\n" +
                 "Mì Quảng thường được làm từ sợi mì bằng bột gạo xay mịn và tráng thành từng lớp bánh mỏng, sau đó thái theo chiều ngang để có những sợi mì mỏng khoảng 2mm. Sợi mì làm bằng bột mỳ được trộn thêm một số phụ gia cho đạt độ giòn, dai. Dưới lớp mì là các loại rau sống, trên mì là thịt heo nạc, tôm, thịt gà cùng với nước dùng được hầm từ xương heo. Người ta còn bỏ thêm đậu phụng rang khô và giã dập, hành lá thái nhỏ, rau thơm, ớt đỏ... Thông thường nước dùng rất ít.");

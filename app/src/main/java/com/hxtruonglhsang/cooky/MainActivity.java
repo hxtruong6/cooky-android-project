@@ -8,15 +8,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.hxtruonglhsang.cooky.fragment.AddFragment;
 import com.hxtruonglhsang.cooky.fragment.HomeFragment;
 import com.hxtruonglhsang.cooky.fragment.ProfileFragment;
 import com.hxtruonglhsang.cooky.fragment.SavedFragment;
+import com.hxtruonglhsang.cooky.model.Food;
+import com.hxtruonglhsang.cooky.service.FoodService;
 import com.hxtruonglhsang.cooky.utils.BottomNavigationBehavior;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements
         HomeFragment.OnFragmentInteractionListener,
@@ -39,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements
         loadFragment(new HomeFragment());
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener=
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -52,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements
                         case R.id.navigation_add:
                             fragment = new AddFragment();
                             loadFragment(fragment);
-                           return true;
+                            return true;
                         case R.id.navigation_saved:
                             fragment = new SavedFragment();
                             loadFragment(fragment);
@@ -80,8 +90,13 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search,menu);
+        getMenuInflater().inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.action_search);
         return true;
+    }
+
+    public void onTestBtnClick(View view) {
+        String message = "on";
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 }

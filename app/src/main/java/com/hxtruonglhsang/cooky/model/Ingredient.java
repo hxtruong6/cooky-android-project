@@ -1,6 +1,6 @@
 package com.hxtruonglhsang.cooky.model;
 
-public class Resource {
+public class Ingredient {
     private int foodId;
     private String name;
     private String quantity;

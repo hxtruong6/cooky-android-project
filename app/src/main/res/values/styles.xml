@@ -1,4 +1,4 @@
-<resources>
+<ingredients>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -17,4 +17,4 @@
     <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name ="android:windowBackground"> @drawable/icon_primary</item>
     </style>
-</resources>
+</ingredients>
