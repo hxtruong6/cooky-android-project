@@ -13,4 +13,8 @@
         </item>
         <item name="colorAccent">#FFAB40</item>
     </style>
+
+    <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name ="android:windowBackground"> @drawable/icon_primary</item>
+    </style>
 </resources>

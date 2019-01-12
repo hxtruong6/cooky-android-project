@@ -5,6 +5,7 @@
     <string name="title_saved">Đã lưu</string>
     <string name="title_profile">Tài khoản</string>
 
+    <string name="title_search">Tìm kiếm</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

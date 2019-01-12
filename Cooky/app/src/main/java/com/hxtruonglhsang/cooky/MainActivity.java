@@ -3,17 +3,20 @@ package com.hxtruonglhsang.cooky;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.hxtruonglhsang.cooky.fragment.AddFragment;
 import com.hxtruonglhsang.cooky.fragment.HomeFragment;
 import com.hxtruonglhsang.cooky.fragment.ProfileFragment;
 import com.hxtruonglhsang.cooky.fragment.SavedFragment;
+import com.hxtruonglhsang.cooky.utils.BottomNavigationBehavior;
 
 public class MainActivity extends AppCompatActivity implements
         HomeFragment.OnFragmentInteractionListener,
@@ -28,6 +31,10 @@ public class MainActivity extends AppCompatActivity implements
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        // attaching bottom sheet behaviour - hide / show on scroll
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavigationBehavior());
 
         loadFragment(new HomeFragment());
     }
@@ -69,5 +76,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search,menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        return true;
     }
 }

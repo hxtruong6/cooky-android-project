@@ -4,14 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hxtruonglhsang.cooky.MainActivity;
 import com.hxtruonglhsang.cooky.R;
 
 import org.w3c.dom.Text;
@@ -52,6 +56,14 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_profile, container, false);
 
+        try{
+            //Toolbar toolbar = view.findViewById(R.id.toolbar);
+            //((MainActivity) getActivity()).getSupportActionBar().hide();
+
+            //((MainActivity) getActivity()).setSupportActionBar(toolbar);
+        }catch (Exception e){
+
+        }
         TextView fullName = (TextView)view.findViewById(R.id.fullname);
         TextView username = (TextView)view.findViewById(R.id.username);
         ImageView avatar = (ImageView)view.findViewById(R.id.avatar);

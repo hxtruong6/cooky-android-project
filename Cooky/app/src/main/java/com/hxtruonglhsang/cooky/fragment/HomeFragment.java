@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import com.hxtruonglhsang.cooky.R;
 import com.hxtruonglhsang.cooky.adapter.FoodInNewsfeedAdapter;
 import com.hxtruonglhsang.cooky.model.Food;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +55,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+
         ListView listViewNewsfeed = (ListView) view.findViewById(R.id.listviewNewsfeed);
 
         Food  food =new Food();
@@ -63,7 +66,7 @@ public class HomeFragment extends Fragment {
                 "\n" +
                 "Mì Quảng thường được làm từ sợi mì bằng bột gạo xay mịn và tráng thành từng lớp bánh mỏng, sau đó thái theo chiều ngang để có những sợi mì mỏng khoảng 2mm. Sợi mì làm bằng bột mỳ được trộn thêm một số phụ gia cho đạt độ giòn, dai. Dưới lớp mì là các loại rau sống, trên mì là thịt heo nạc, tôm, thịt gà cùng với nước dùng được hầm từ xương heo. Người ta còn bỏ thêm đậu phụng rang khô và giã dập, hành lá thái nhỏ, rau thơm, ớt đỏ... Thông thường nước dùng rất ít.");
         ArrayList<Food> foods =new ArrayList<>();
-        foods.add(food);        foods.add(food); foods.add(food);
+        foods.add(food);        foods.add(food); foods.add(food); foods.add(food); foods.add(food);
 
         FoodInNewsfeedAdapter foodAdapter = new FoodInNewsfeedAdapter(getActivity(),R.layout.newsfeed, foods);
         listViewNewsfeed.setAdapter(foodAdapter);
@@ -93,18 +96,9 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
