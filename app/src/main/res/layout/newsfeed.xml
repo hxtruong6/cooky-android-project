@@ -70,7 +70,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="2dp"
                     android:textColor="#9f9f9f"
-                    android:text="5"
+                    android:text="0"
                     android:id="@+id/likeNumber"/>
                 <CheckBox
                     android:id="@+id/ck_like"

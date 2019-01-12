@@ -22,36 +22,43 @@ public class FoodInNewsfeedAdapter extends ArrayAdapter<Food> {
     private int resource;
     private ArrayList<Food> foodArrayList;
 
-    public FoodInNewsfeedAdapter (Context context, int resource, ArrayList<Food> foods) {
+    public FoodInNewsfeedAdapter(Context context, int resource, ArrayList<Food> foods) {
         super(context, resource, foods);
-        this.context=context;
-        this.foodArrayList=foods;
-        this.resource=resource;
+        this.context = context;
+        this.foodArrayList = foods;
+        this.resource = resource;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView=inflater.inflate(resource, parent,false);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = inflater.inflate(resource, parent, false);
 
         final MediaPlayer mp = MediaPlayer.create(getContext(), R.raw.like_sound);
-        ImageView imageList=(ImageView)convertView.findViewById(R.id.imageFood);
-        TextView user = (TextView)convertView.findViewById(R.id.user) ;
-        TextView foodName = (TextView)convertView.findViewById(R.id.foodName) ;
-        TextView foodDescription = (TextView)convertView.findViewById(R.id.foodDescription) ;
-        CheckBox like = (CheckBox)convertView.findViewById(R.id.ck_like) ;
+        ImageView imageList = (ImageView) convertView.findViewById(R.id.imageFood);
+        TextView user = (TextView) convertView.findViewById(R.id.user);
+        TextView foodName = (TextView) convertView.findViewById(R.id.foodName);
+        TextView foodDescription = (TextView) convertView.findViewById(R.id.foodDescription);
+        TextView likeNumber = (TextView) convertView.findViewById(R.id.likeNumber);
+        CheckBox like = (CheckBox) convertView.findViewById(R.id.ck_like);
 
-        Food food=foodArrayList.get(position);
+        Food food = foodArrayList.get(position);
 
         user.setText(food.getUserId());
         foodName.setText(food.getName());
-        foodDescription.setText(food.getDescription().substring(0,food.getDescription().length()>80? 80:food.getDescription().length())+"...");
+        foodDescription.setText(food.getDescription().substring(0, food.getDescription().length() > 80 ? 80 : food.getDescription().length()) + "...");
         Picasso.with(context).load(food.getImages().get(0)).error(R.mipmap.ic_launcher).into(imageList);
 
+        if (food.getLikes() != null) {
+            likeNumber.setText(food.getLikes().size());
+        }
+        // TODO: comments
+
+        // TODO: action like
         like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
+                if (isChecked)
                     mp.start();
             }
         });

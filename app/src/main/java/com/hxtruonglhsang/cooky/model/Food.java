@@ -3,20 +3,21 @@ package com.hxtruonglhsang.cooky.model;
 import java.util.List;
 
 public class Food {
-    private int id;
+    private String id;
     private String name;
     private String userId; //username
     private List<String> likes; //username
     private List<Ingredient> ingredients;
     private List<String> images;      //finished
     private List<Step> steps;
+    private List<Comment> comments;
     private String description;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -74,5 +75,13 @@ public class Food {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
