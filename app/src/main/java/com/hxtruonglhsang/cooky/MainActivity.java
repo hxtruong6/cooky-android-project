@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public void onTestBtnClick(View view) {
         String message = "on";
+        FoodService.delete(new Food("abc"));
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 }

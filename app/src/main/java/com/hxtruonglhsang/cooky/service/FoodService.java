@@ -24,7 +24,7 @@ public class FoodService extends Firebase {
     }
 
     public static void saveFood(Food food) {
-        DatabaseReference rootRef = database.getReference();
+        DatabaseReference rootRef = Firebase.database.getReference();
         Map<String, Object> foodValue = food.toFoodGeneralInfoMap();
 //        foodValue.put("userId", Firebase.getUid());
         foodValue.put("userId", "hxtruong");
@@ -40,8 +40,13 @@ public class FoodService extends Firebase {
         rootRef.child("foodLikes").child(key).setValue(food.toFoodLikesMap());
     }
 
-    public boolean delete(Food food) {
-        return true;
+    public static void delete(Food food) {
+//        food.setId("-LW4bW8K8S_b28Wg45M2"); // remove this
+        Firebase.deleteFirebaseNode("/foods/" + food.getId());
+        Firebase.deleteFirebaseNode("/foodLikes/" + food.getId());
+        Firebase.deleteFirebaseNode("/foodComments/" + food.getId());
+        Firebase.deleteFirebaseNode("/foodSteps/" + food.getId());
+        Firebase.deleteFirebaseNode("/foodIngredients/" + food.getId());
     }
 
     public static void getAllFood(final IAllFoodsCallback iAllFoodsCallback) {

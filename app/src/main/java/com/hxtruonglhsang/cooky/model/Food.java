@@ -31,6 +31,10 @@ public class Food {
         this.userName = userName;
     }
 
+    public Food(String id) {
+        this.id = id;
+    }
+
     public Food() {
         this.likes = new ArrayList<>();
         this.ingredients = new ArrayList<>();
