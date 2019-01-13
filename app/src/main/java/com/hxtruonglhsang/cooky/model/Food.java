@@ -134,14 +134,18 @@ public class Food {
     @Exclude
     public Map<String, Object> toFoodCommentsMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("comments", comments);
+        for (int i =0 ; i<comments.size(); i++) {
+            result.put(String.valueOf(i), comments.get(i).toMap());
+        }
         return result;
     }
 
     @Exclude
     public Map<String, Object> toFoodStepsMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("steps", steps);
+        for (int i =0 ; i<steps.size(); i++) {
+            result.put(String.valueOf(i), steps.get(i).toMap());
+        }
         return result;
     }
 
