@@ -16,6 +16,7 @@ import com.google.firebase.FirebaseApp;
 import com.hxtruonglhsang.cooky.MainActivity;
 import com.hxtruonglhsang.cooky.R;
 import com.hxtruonglhsang.cooky.adapter.FoodInNewsfeedAdapter;
+import com.hxtruonglhsang.cooky.model.Comment;
 import com.hxtruonglhsang.cooky.model.Food;
 import com.hxtruonglhsang.cooky.model.Ingredient;
 import com.hxtruonglhsang.cooky.service.Firebase;
@@ -93,16 +94,26 @@ public class HomeFragment extends Fragment {
 //        FoodInNewsfeedAdapter foodAdapter = new FoodInNewsfeedAdapter(getActivity(), R.layout.newsfeed, foods);
 //        listViewNewsfeed.setAdapter(foodAdapter);
 
-
+        Food food1;
         // start test data
         FoodService.getAllFood(new FoodService.IAllFoodsCallback() {
             @Override
             public void onCallback(ArrayList<Food> foods) {
                 // add to food Adapter
+//                food1.getId( foods.get(0).getId());
                 FoodInNewsfeedAdapter foodAdapter = new FoodInNewsfeedAdapter(getActivity(), R.layout.newsfeed, foods);
                 listViewNewsfeed.setAdapter(foodAdapter);
             }
         });
+
+//        FoodService.getFoodCommentsById(food1.getId(), new FoodService.IFoodCommentsCallback(){
+//            @Override
+//            public  void onCallBack(List<Comment> comments){
+//
+//            }
+//        });
+
+
         // end test data
 
         return view;

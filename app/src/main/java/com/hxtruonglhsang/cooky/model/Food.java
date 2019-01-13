@@ -16,7 +16,7 @@ public class Food {
     private String id;
     private String name;
     private String userId; //username
-    private List<String> likes; //username
+    private List<String> likes; //userIds
     private List<Ingredient> ingredients;
     private List<String> images;      //finished
     private List<Step> steps;

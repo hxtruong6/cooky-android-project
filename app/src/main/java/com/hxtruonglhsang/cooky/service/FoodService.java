@@ -6,15 +6,13 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hxtruonglhsang.cooky.model.Comment;
 import com.hxtruonglhsang.cooky.model.Food;
 import com.hxtruonglhsang.cooky.model.Ingredient;
+import com.hxtruonglhsang.cooky.model.Step;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,21 +21,31 @@ public class FoodService extends Firebase {
         return null;
     }
 
+    public List<Food> getFoodByUserId(int userId) {
+        return null;
+    }
+
+    public void uploadImage(String imageName) {
+
+    }
+
     public static void saveFood(Food food) {
         DatabaseReference rootRef = Firebase.database.getReference();
         Map<String, Object> foodValue = food.toFoodGeneralInfoMap();
+        String userId = "hxtruong";
 //        foodValue.put("userId", Firebase.getUid());
-        foodValue.put("userId", "hxtruong");
+        foodValue.put("userId", userId);
 //        Log.d("xxx save food", foodValue.toString());
         DatabaseReference foodRef = rootRef.child("foods").push();
         foodRef.setValue(foodValue);
         String key = foodRef.getKey();
-        Log.d("xxx key", key);
+//        Log.d("xxx key", key);
 
         rootRef.child("foodIngredients").child(key).setValue(food.toFoodIngredientsMap());
         rootRef.child("foodSteps").child(key).setValue(food.toFoodStepsMap());
         rootRef.child("foodComments").child(key).setValue(food.toFoodCommentsMap());
         rootRef.child("foodLikes").child(key).setValue(food.toFoodLikesMap());
+        rootRef.child("userFoods").child(userId).setValue(food.getId());
     }
 
     public static void delete(Food food) {
@@ -47,6 +55,7 @@ public class FoodService extends Firebase {
         Firebase.deleteFirebaseNode("/foodComments/" + food.getId());
         Firebase.deleteFirebaseNode("/foodSteps/" + food.getId());
         Firebase.deleteFirebaseNode("/foodIngredients/" + food.getId());
+        Firebase.deleteFirebaseNode("/userFoods/" + food.getUserId() + "/" + food.getId());
     }
 
     public static void getAllFood(final IAllFoodsCallback iAllFoodsCallback) {
@@ -143,6 +152,29 @@ public class FoodService extends Firebase {
         });
     }
 
+    public static void getFoodStepsById(String foodId, final IFoodStepsCallback iFoodStepsCallback) {
+        DatabaseReference ingredientRef = database.getReference("foodComments").child(foodId);
+        ingredientRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    List<Object> stepsData = (List<Object>) dataSnapshot.getValue();
+                    ArrayList<Step> steps = new ArrayList<>();
+                    for (int i = 0; i < stepsData.size(); i++) {
+                        Step step = dataSnapshot.child(String.valueOf(i)).getValue(Step.class);
+                        steps.add(step);
+                    }
+                    iFoodStepsCallback.onCallback(steps);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public static void getFoodLikesById(String foodId, final IFoodLikesCallback iFoodLikesCallback) {
         DatabaseReference likeRef = database.getReference("foodLikes").child(foodId);
         likeRef.addValueEventListener(new ValueEventListener() {
@@ -186,5 +218,9 @@ public class FoodService extends Firebase {
 
     public interface IFoodIngredientsCallback {
         void onCallback(ArrayList<Ingredient> ingredients);
+    }
+
+    public interface IFoodStepsCallback {
+        void onCallback(ArrayList<Step> steps);
     }
 }
