@@ -21,13 +21,15 @@ public class FoodService extends Firebase {
         return null;
     }
 
-    public List<Food> getFoodByUserId(int userId) {
+    public List<Food> getsavedFoodByUserId(int userId) {
         return null;
     }
 
     public void uploadImage(String imageName) {
 
     }
+
+
 
     public static void saveFood(Food food) {
         DatabaseReference rootRef = Firebase.database.getReference();
@@ -153,7 +155,7 @@ public class FoodService extends Firebase {
     }
 
     public static void getFoodStepsById(String foodId, final IFoodStepsCallback iFoodStepsCallback) {
-        DatabaseReference ingredientRef = database.getReference("foodComments").child(foodId);
+        DatabaseReference ingredientRef = database.getReference("foodSteps").child(foodId);
         ingredientRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

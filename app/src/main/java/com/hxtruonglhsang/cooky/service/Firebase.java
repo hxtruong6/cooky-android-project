@@ -1,5 +1,7 @@
 package com.hxtruonglhsang.cooky.service;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -21,7 +23,7 @@ import java.util.List;
 import static android.support.constraint.Constraints.TAG;
 
 public class Firebase {
-    //private static FirebaseAuth mAuth;
+    private static FirebaseAuth mAuth;
     public static FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     public static String getUid() {
@@ -36,5 +38,58 @@ public class Firebase {
                 Log.d("Delete", nodePath + " Successfully!");
             }
         });
+    }
+
+    public static boolean isSignedIn() {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        return currentUser != null;
+    }
+
+    public static void signUpWithEmail(final Context context, String email, String password, final ISignUpCallback iSignUpCallback) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            iSignUpCallback.onCallback(user);
+                        } else {
+                            Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            iSignUpCallback.onCallback(null);
+                        }
+                    }
+                });
+
+    }
+
+    public static void signInWithEmail(final Context context, String email, String password, final ISignInCallback iSignInCallback) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            iSignInCallback.onCallback(user);
+                        } else {
+                            Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            iSignInCallback.onCallback(null);
+                        }
+                    }
+                });
+    }
+
+    public static void signOut() {
+        if (FirebaseAuth.getInstance() != null) {
+            FirebaseAuth.getInstance().signOut();
+        }
+    }
+
+    public interface ISignUpCallback {
+        void onCallback(FirebaseUser currentUser);
+    }
+
+    public interface ISignInCallback {
+        void onCallback(FirebaseUser currentUser);
     }
 }
