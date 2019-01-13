@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.firebase.FirebaseApp;
 import com.hxtruonglhsang.cooky.MainActivity;
 import com.hxtruonglhsang.cooky.R;
 
@@ -16,13 +17,13 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        try{
+        //FirebaseApp.initializeApp(this);
+        try {
             requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
             getSupportActionBar().hide(); // hide the title bar
             this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 

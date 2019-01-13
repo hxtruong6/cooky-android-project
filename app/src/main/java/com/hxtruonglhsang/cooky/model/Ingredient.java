@@ -1,12 +1,19 @@
 package com.hxtruonglhsang.cooky.model;
 
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@IgnoreExtraProperties
 public class Ingredient {
     private String ingredientId;
     private String name;
     private String type;
     private String description;
-    private Float number;
+    private Float amount;
 
     public String getIngredientId() {
         return ingredientId;
@@ -40,11 +47,34 @@ public class Ingredient {
         this.description = description;
     }
 
-    public Float getNumber() {
-        return number;
+    public Float getAmount() {
+        return amount;
     }
 
-    public void setNumber(Float number) {
-        this.number = number;
+    public Ingredient() {
+
+    }
+
+    public Ingredient(String ingredientId, String name, String type, String description, Float amount) {
+        this.ingredientId = ingredientId;
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.amount = amount;
+    }
+
+    public void setAmount(Float amount) {
+        this.amount = amount;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("name", name);
+        result.put("type", type);
+        result.put("description", description);
+        result.put("ingredientId", ingredientId);
+        result.put("amount", amount);
+        return result;
     }
 }

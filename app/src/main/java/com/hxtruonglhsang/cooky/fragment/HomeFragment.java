@@ -11,12 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.google.firebase.FirebaseApp;
 import com.hxtruonglhsang.cooky.R;
 import com.hxtruonglhsang.cooky.adapter.FoodInNewsfeedAdapter;
 import com.hxtruonglhsang.cooky.model.Food;
+import com.hxtruonglhsang.cooky.model.Ingredient;
+import com.hxtruonglhsang.cooky.service.Firebase;
 import com.hxtruonglhsang.cooky.service.FoodService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -55,16 +59,28 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         final ListView listViewNewsfeed = (ListView) view.findViewById(R.id.listviewNewsfeed);
 
-//        final Food food = new Food();
-//        List<String> img = new ArrayList<>();
-//        img.add("https://static.vietnammm.com/images/restaurants/vn/NP373OQ/products/mi-quang-dac-biet.png");
-//        food.setName("Mỳ quảng");
-//        food.setImages(img);
-//        food.setUserId("lhsang");
-//        food.setLikes(img);
-//        food.setDescription("Mì Quảng là một món ăn đặc trưng của Quảng Nam, Việt Nam, cùng với món cao lầu.\n" +
-//                "\n" +
-//                "Mì Quảng thường được làm từ sợi mì bằng bột gạo xay mịn và tráng thành từng lớp bánh mỏng, sau đó thái theo chiều ngang để có những sợi mì mỏng khoảng 2mm. Sợi mì làm bằng bột mỳ được trộn thêm một số phụ gia cho đạt độ giòn, dai. Dưới lớp mì là các loại rau sống, trên mì là thịt heo nạc, tôm, thịt gà cùng với nước dùng được hầm từ xương heo. Người ta còn bỏ thêm đậu phụng rang khô và giã dập, hành lá thái nhỏ, rau thơm, ớt đỏ... Thông thường nước dùng rất ít.");
+        final Food food = new Food();
+        List<String> img = new ArrayList<>();
+        img.add("https://static.vietnammm.com/images/restaurants/vn/NP373OQ/products/mi-quang-dac-biet.png");
+        List<String> likes = new ArrayList<>();
+        likes.add("user01");
+        likes.add("user02");
+        likes.add("user03");
+        Ingredient ingredient = new Ingredient("ing01", "chicken", "g", "thit ga mua ngoai cho", 1500.0f);
+        List<Ingredient> ingres = new ArrayList<>();
+        ingres.add(ingredient);
+        ingres.add(ingredient);
+        ingres.add(ingredient);
+        food.setIngredients(ingres);
+
+        food.setName("Mỳ quảng 1");
+        food.setImages(img);
+        food.setUserId("hxtruong");
+        food.setLikes(likes);
+        food.setDescription("Mì Quảng là một món ăn đặc trưng của Quảng Nam, Việt Nam, cùng với món cao lầu.\n" +
+                "\n" +
+                "Mì Quảng thường được làm từ sợi mì bằng bột gạo xay mịn và tráng thành từng lớp bánh mỏng, sau đó thái theo chiều ngang để có những sợi mì mỏng khoảng 2mm. Sợi mì làm bằng bột mỳ được trộn thêm một số phụ gia cho đạt độ giòn, dai. Dưới lớp mì là các loại rau sống, trên mì là thịt heo nạc, tôm, thịt gà cùng với nước dùng được hầm từ xương heo. Người ta còn bỏ thêm đậu phụng rang khô và giã dập, hành lá thái nhỏ, rau thơm, ớt đỏ... Thông thường nước dùng rất ít.");
+        FoodService.saveFood(food);
 //        ArrayList<Food> foods = new ArrayList<>();
 //        foods.add(food);
 //        foods.add(food);

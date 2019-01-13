@@ -6,12 +6,14 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hxtruonglhsang.cooky.model.Comment;
 import com.hxtruonglhsang.cooky.model.Food;
 import com.hxtruonglhsang.cooky.model.Ingredient;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +23,21 @@ public class FoodService extends Firebase {
         return null;
     }
 
-    public boolean saveFood(Food food) {
-        return true;
+    public static void saveFood(Food food) {
+        DatabaseReference rootRef = database.getReference();
+        Map<String, Object> foodValue = food.toFoodGeneralInfoMap();
+//        foodValue.put("userId", Firebase.getUid());
+        foodValue.put("userId", "hxtruong");
+//        Log.d("xxx save food", foodValue.toString());
+        DatabaseReference foodRef = rootRef.child("foods").push();
+        foodRef.setValue(foodValue);
+        String key = foodRef.getKey();
+        Log.d("xxx key", key);
+
+        rootRef.child("foodIngredients").child(key).setValue(food.toFoodIngredientsMap());
+        rootRef.child("foodSteps").child(key).setValue(food.toFoodStepsMap());
+        rootRef.child("foodComments").child(key).setValue(food.toFoodCommentsMap());
+        rootRef.child("foodLikes").child(key).setValue(food.toFoodLikesMap());
     }
 
     public boolean delete(Food food) {
@@ -122,7 +137,6 @@ public class FoodService extends Firebase {
             }
         });
     }
-
 
     public static void getFoodLikesById(String foodId, final IFoodLikesCallback iFoodLikesCallback) {
         DatabaseReference likeRef = database.getReference("foodLikes").child(foodId);

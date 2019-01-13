@@ -1,7 +1,17 @@
 package com.hxtruonglhsang.cooky.model;
 
-import java.util.List;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+
+@IgnoreExtraProperties
 public class Food {
     private String id;
     private String name;
@@ -12,6 +22,24 @@ public class Food {
     private List<Step> steps;
     private List<Comment> comments;
     private String description;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Food() {
+        this.likes = new ArrayList<>();
+        this.ingredients = new ArrayList<>();
+        this.images = new ArrayList<>();
+        this.steps = new ArrayList<>();
+        this.comments = new ArrayList<>();
+    }
+
+    private String userName;
 
     public String getId() {
         return id;
@@ -84,4 +112,46 @@ public class Food {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    @Exclude
+    public Map<String, Object> toFoodGeneralInfoMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("name", name);
+        result.put("images", images);
+        result.put("description", description);
+        return result;
+    }
+
+    @Exclude
+    public Map<String, Object> toFoodIngredientsMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        for (int i =0 ; i<ingredients.size(); i++) {
+            result.put(String.valueOf(i), ingredients.get(i).toMap());
+        }
+        return result;
+    }
+
+    @Exclude
+    public Map<String, Object> toFoodCommentsMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("comments", comments);
+        return result;
+    }
+
+    @Exclude
+    public Map<String, Object> toFoodStepsMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("steps", steps);
+        return result;
+    }
+
+    @Exclude
+    public Map<String, Object> toFoodLikesMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        for (int i = 0; i < likes.size(); i++) {
+            result.put(likes.get(i), true);
+        }
+        return result;
+    }
+
 }

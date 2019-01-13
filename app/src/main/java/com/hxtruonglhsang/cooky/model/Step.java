@@ -6,6 +6,6 @@ public class Step {
     private int stepNumber;
     private int foodId;
     private String description;
-    private List<String> imgs;
+    private List<String> images;
 
 }

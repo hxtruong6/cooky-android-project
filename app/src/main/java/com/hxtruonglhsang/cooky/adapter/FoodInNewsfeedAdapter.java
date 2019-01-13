@@ -50,7 +50,7 @@ public class FoodInNewsfeedAdapter extends ArrayAdapter<Food> {
         Picasso.with(context).load(food.getImages().get(0)).error(R.mipmap.ic_launcher).into(imageList);
 
         if (food.getLikes() != null) {
-            likeNumber.setText(food.getLikes().size());
+//            likeNumber.setText(food.getLikes().size());
         }
         // TODO: comments
 
