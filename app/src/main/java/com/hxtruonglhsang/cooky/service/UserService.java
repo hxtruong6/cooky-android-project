@@ -10,24 +10,21 @@ import com.hxtruonglhsang.cooky.model.Food;
 import com.hxtruonglhsang.cooky.model.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserService {
-    public User getUserByUserName(String userName) {
-        return null;
-    }
-
-    public boolean signIn() {
-        return true;
-    }
-
-    public boolean signUp(User user) {
-        return true;
+    public static void updateUser(User user) {
+//        if (!user.getId().equals(Firebase.getUid())) return;
+        DatabaseReference userRef = Firebase.database.getReference("users");
+        Map<String, Object> map = user.toUserInfoMap();
+        userRef.child(user.getId()).updateChildren(map);
     }
 
     public static void getUserByUserName(final String userName, final IUserByUserNameCallback iUserByUserNameCallback) {
-        DatabaseReference likeRef = Firebase.database.getReference("users");
-        likeRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference userRef = Firebase.database.getReference("users");
+        userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -49,8 +46,8 @@ public class UserService {
     }
 
     public static void getUserById(final String userId, final IUserByIdCallback iUserByIdCallback) {
-        DatabaseReference likeRef = Firebase.database.getReference("users").child(userId);
-        likeRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference userRef = Firebase.database.getReference("users").child(userId);
+        userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -66,8 +63,8 @@ public class UserService {
     }
 
     public static void getFoodsByUserId(final String userId, final IFoodsByUserIdCallback iFoodsByUserIdCallback) {
-        DatabaseReference likeRef = Firebase.database.getReference("userFoods").child(userId);
-        likeRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference userRef = Firebase.database.getReference("userFoods").child(userId);
+        userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -88,6 +85,50 @@ public class UserService {
         });
     }
 
+    public static void getSavedFoodsByUserId(final String userId, final ISavedFoodsByUserIdCallback iSavedFoodsByUserIdCallback) {
+        DatabaseReference userRef = Firebase.database.getReference("savedUserFoods").child(userId);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    List<String> foodIds = new ArrayList<>();
+                    for (DataSnapshot foodId : dataSnapshot.getChildren()) {
+                        if (foodId.getKey().compareTo("true") == 0) {
+                            foodIds.add(foodId.getKey());
+                        }
+                    }
+                    iSavedFoodsByUserIdCallback.onCallback(foodIds);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public static void updateUserFoods(final String userId, String foodId) {
+        DatabaseReference dataRef = Firebase.database.getReference();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(foodId, true);
+        dataRef.child("userFoods").child(userId).updateChildren(map);
+    }
+
+    public static void updateSavedUserFoods(final String userId, String foodId) {
+        DatabaseReference dataRef = Firebase.database.getReference();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(foodId, true);
+        dataRef.child("savedUserFoods").child(userId).updateChildren(map);
+    }
+
+    public static void removerUserFood(final String userId, final String foodId) {
+        Firebase.deleteFirebaseNode("/userFoods/" + userId + "/" + foodId);
+    }
+
+    public static void removerSavedUserFood(final String userId, final String foodId) {
+        Firebase.deleteFirebaseNode("/savedUserFoods/" + userId + "/" + foodId);
+    }
 
     public interface IUserByUserNameCallback {
         void onCallback(User user);
@@ -98,6 +139,10 @@ public class UserService {
     }
 
     public interface IFoodsByUserIdCallback {
+        void onCallback(List<String> foodIds);
+    }
+
+    public interface ISavedFoodsByUserIdCallback {
         void onCallback(List<String> foodIds);
     }
 

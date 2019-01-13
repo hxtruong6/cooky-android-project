@@ -10,9 +10,15 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.hxtruonglhsang.cooky.R;
+import com.hxtruonglhsang.cooky.model.Comment;
 import com.hxtruonglhsang.cooky.model.Food;
+import com.hxtruonglhsang.cooky.service.FoodService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -62,7 +68,58 @@ public class FoodInNewsfeedAdapter extends ArrayAdapter<Food> {
                     mp.start();
             }
         });
+
+        // For update comment
+        //displayCommentsReadltime(food.getId());
         return convertView;
+    }
+
+    void updateComments(String foodId) {
+        ChildEventListener childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                // A new comment has been added, add it to the displayed list
+                Comment comment = dataSnapshot.getValue(Comment.class);
+                // ...
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                // A comment has changed, use the key to determine if we are displaying this
+                // comment and if so displayed the changed comment.
+                Comment newComment = dataSnapshot.getValue(Comment.class);
+                String commentKey = dataSnapshot.getKey();
+
+                // ...
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                // A comment has changed, use the key to determine if we are displaying this
+                // comment and if so remove it.
+                String commentKey = dataSnapshot.getKey();
+
+                // ...
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+                // A comment has changed position, use the key to determine if we are
+                // displaying this comment and if so move it.
+                Comment movedComment = dataSnapshot.getValue(Comment.class);
+                String commentKey = dataSnapshot.getKey();
+
+                // ...
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(context, "Failed to load comments.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        };
+        FoodService.displayCommentsReadltime(foodId, childEventListener);
+
     }
 
     @Override
