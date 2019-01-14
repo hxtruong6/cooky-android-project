@@ -20,6 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 public class FoodService extends Firebase {
+    public static void displayCommentsReadltime(String foodId, ChildEventListener childEventListener) {
+        DatabaseReference commentRef = Firebase.database.getReference().child("foodComments").child(foodId);
+        commentRef.addChildEventListener(childEventListener);
+    }
+
     public void uploadImage(String imageName) {
 
     }
@@ -47,11 +52,6 @@ public class FoodService extends Firebase {
 
         // add food to list usrFoods of usr
         UserService.updateUserFoods(userId, food.getId());
-    }
-
-    public static void displayFoodCommentsReadltime(String foodId, ChildEventListener childEventListener) {
-        DatabaseReference commentRef = Firebase.database.getReference().child("foodComments").child(foodId);
-        commentRef.addChildEventListener(childEventListener);
     }
 
     public static void updateFoodSteps(String foodId, List<Step> lists) {

@@ -1,14 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.AddFragment">
+    tools:context=".fragment.AddFragment"
+    android:id="@+id/parentLayout">
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Base.Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        android:translationZ="100dp"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/selectImg"
+        android:src="@drawable/no_image_icon"
+        android:tooltipText="@string/title_search"/>
 
-    <!-- TODO: Update blank fragment layout -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/save"
+        android:text="SAVE IMG"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/selectImg"
+        android:id="@+id/txtName"
+        android:hint="Tên món" />
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Add" />
+        android:layout_height="wrap_content"
+        android:text="Nguyên liệu:"
+        android:layout_below="@+id/txtName"
+        android:textColor="#5277dc"
+        android:textSize="17dp"/>
 
-</FrameLayout>
+</RelativeLayout>
