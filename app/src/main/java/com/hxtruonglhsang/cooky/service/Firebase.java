@@ -17,7 +17,7 @@ public class Firebase {
     private static FirebaseAuth mAuth;
     public static FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    public static String getUid() {
+    public static String getUserId() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
@@ -72,9 +72,7 @@ public class Firebase {
     }
 
     public static void signOut() {
-        if (FirebaseAuth.getInstance() != null) {
-            FirebaseAuth.getInstance().signOut();
-        }
+        FirebaseAuth.getInstance().signOut();
     }
 
     public interface ISignUpCallback {

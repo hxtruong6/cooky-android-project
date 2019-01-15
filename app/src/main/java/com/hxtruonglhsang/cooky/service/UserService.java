@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class UserService {
     public static void updateUser(User user) {
-//        if (!user.getId().equals(Firebase.getUid())) return;
         DatabaseReference userRef = Firebase.database.getReference("users");
         Map<String, Object> map = user.toUserInfoMap();
         userRef.child(user.getId()).updateChildren(map);

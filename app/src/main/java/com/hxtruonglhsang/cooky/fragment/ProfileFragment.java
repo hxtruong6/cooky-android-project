@@ -1,6 +1,7 @@
 package com.hxtruonglhsang.cooky.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,8 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hxtruonglhsang.cooky.LoginActivity;
 import com.hxtruonglhsang.cooky.MainActivity;
 import com.hxtruonglhsang.cooky.R;
+import com.hxtruonglhsang.cooky.service.Firebase;
 
 import org.w3c.dom.Text;
 
@@ -49,30 +52,42 @@ public class ProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        try{
+        try {
             //Toolbar toolbar = view.findViewById(R.id.toolbar);
             //((MainActivity) getActivity()).getSupportActionBar().hide();
 
             //((MainActivity) getActivity()).setSupportActionBar(toolbar);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
-        TextView fullName = (TextView)view.findViewById(R.id.fullname);
-        TextView username = (TextView)view.findViewById(R.id.username);
-        ImageView avatar = (ImageView)view.findViewById(R.id.avatar);
+        TextView fullName = (TextView) view.findViewById(R.id.fullname);
+        TextView username = (TextView) view.findViewById(R.id.username);
+        ImageView avatar = (ImageView) view.findViewById(R.id.avatar);
         TextView description = (TextView) view.findViewById(R.id.description);
         Button editButton = (Button) view.findViewById(R.id.btnEdit);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Edit button",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Edit button", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button logOutButton = (Button) view.findViewById(R.id.btnLogOut);
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Firebase.signOut();
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+
             }
         });
 

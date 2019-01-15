@@ -1,68 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="420dp"
         android:layout_margin="32dp"
-        app:cardBackgroundColor="@android:color/background_light"
-        app:contentPadding="32dp"
-        app:cardCornerRadius="16dp"
         android:elevation="20dp"
-        android:translationZ="10dp">
+        android:translationZ="10dp"
+        app:cardBackgroundColor="@android:color/background_light"
+        app:cardCornerRadius="16dp"
+        app:contentPadding="32dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/avatar"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/avatar_test"
                 android:layout_marginTop="32dp"
-                android:id="@+id/avatar"/>
+                android:src="@drawable/avatar_test" />
 
             <TextView
+                android:id="@+id/fullname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="Le Hoang Sang"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:layout_marginTop="16dp"
                 android:textColor="@color/colorAccent"
-                android:id="@+id/fullname"/>
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
 
             <TextView
+                android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="\@lhsang"
-                android:id="@+id/username"/>
+                android:text="\@lhsang" />
 
             <TextView
+                android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Yêu màu hường ghét sự giả dối"
-                android:gravity="center"
                 android:layout_marginTop="16dp"
-                android:id="@+id/description"/>
+                android:gravity="center"
+                android:text="Yêu màu hường ghét sự giả dối" />
 
             <Button
+                android:id="@+id/btnEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text="Chỉnh sửa"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/button"
-                android:textColor="@android:color/white"
                 android:layout_marginBottom="50dp"
-                android:id="@+id/btnEdit"/>
+                android:background="@drawable/button"
+                android:text="Chỉnh sửa"
+                android:textColor="@android:color/white" />
+            <Button
+                android:id="@+id/btnLogOut"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="70dp"
+                android:background="@drawable/button"
+                android:text="Đăng xuất"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 

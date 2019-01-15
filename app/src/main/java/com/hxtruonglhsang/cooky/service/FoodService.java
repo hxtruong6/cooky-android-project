@@ -12,7 +12,6 @@ import com.hxtruonglhsang.cooky.model.Comment;
 import com.hxtruonglhsang.cooky.model.Food;
 import com.hxtruonglhsang.cooky.model.Ingredient;
 import com.hxtruonglhsang.cooky.model.Step;
-import com.hxtruonglhsang.cooky.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,10 +34,8 @@ public class FoodService extends Firebase {
         String key = foodRef.getKey();
         food.setId(key);
         Map<String, Object> foodValue = food.toFoodGeneralInfoMap();
-        String userId = "hxtruong";
-//        foodValue.put("userId", Firebase.getUid());
-        foodValue.put("userId", userId);
-//        Log.d("xxx save food", foodValue.toString());
+        String userId = Firebase.getUserId();
+        foodValue.put("userId", Firebase.getUserId());
         foodRef.setValue(foodValue);
 
         rootRef.child("foodIngredients").child(key).updateChildren(food.toFoodIngredientsMap());
@@ -143,7 +140,7 @@ public class FoodService extends Firebase {
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Log.w("xxx Error", "Failed to read value.", error.toException());
+                Log.w("Error", "Failed to read value.", error.toException());
             }
         });
     }
