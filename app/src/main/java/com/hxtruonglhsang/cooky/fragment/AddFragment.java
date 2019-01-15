@@ -145,7 +145,7 @@ public class AddFragment extends Fragment {
                         parentLayout.removeView((View) v.getParent());
                     }
                 });
-                parentLayout.addView(rowView, parentLayout.getChildCount() - 1);
+                parentLayout.addView(rowView, parentLayout.getChildCount());
             }
         });
         btnAddStep.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +155,9 @@ public class AddFragment extends Fragment {
                 final View rowView = inflater.inflate(R.layout.step_field, null);
                 TextView name=(TextView)rowView.findViewById(R.id.steapName);
                 name.setText("Bước "+(parentLayoutStep.getChildCount()+1)+":");
-                parentLayoutStep.addView(rowView, parentLayoutStep.getChildCount() - 1);
+
+
+                parentLayoutStep.addView(rowView, parentLayoutStep.getChildCount());
             }
         });
     }
