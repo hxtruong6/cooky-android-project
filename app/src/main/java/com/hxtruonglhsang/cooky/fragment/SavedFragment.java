@@ -4,14 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.hxtruonglhsang.cooky.R;
+import com.hxtruonglhsang.cooky.adapter.FoodInNewsfeedAdapter;
 import com.hxtruonglhsang.cooky.adapter.FoodSavedAdapter;
 import com.hxtruonglhsang.cooky.model.Food;
+import com.hxtruonglhsang.cooky.service.FoodService;
+import com.hxtruonglhsang.cooky.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +23,15 @@ import java.util.List;
 public class SavedFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     private String mParam1;
     private String mParam2;
-
+    ArrayList<Food> saveFoods = new ArrayList<>();
+    FoodSavedAdapter foodAdapter;
     private OnFragmentInteractionListener mListener;
 
     public SavedFragment() {
         // Required empty public constructor
     }
-
 
     public static SavedFragment newInstance(String param1, String param2) {
         SavedFragment fragment = new SavedFragment();
@@ -49,25 +52,41 @@ public class SavedFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_saved, container, false);
+        final ListView listView = (ListView) view.findViewById(R.id.listviewSaved);
 
-        ListView listView = (ListView) view.findViewById(R.id.listviewSaved);
 
-        Food food =new Food();
-        List<String> img =new ArrayList<>(); img.add("https://static.vietnammm.com/images/restaurants/vn/NP373OQ/products/mi-quang-dac-biet.png");
-
-        food.setName("Mỳ quảng"); food.setImages(img); food.setUserId("lhsang"); food.setLikes(img);
-        food.setDescription("Mì Quảng là một món ăn đặc trưng của Quảng Nam, Việt Nam, cùng với món cao lầu.\n" +
-                "\n" +
-                "Mì Quảng thường được làm từ sợi mì bằng bột gạo xay mịn và tráng thành từng lớp bánh mỏng, sau đó thái theo chiều ngang để có những sợi mì mỏng khoảng 2mm. Sợi mì làm bằng bột mỳ được trộn thêm một số phụ gia cho đạt độ giòn, dai. Dưới lớp mì là các loại rau sống, trên mì là thịt heo nạc, tôm, thịt gà cùng với nước dùng được hầm từ xương heo. Người ta còn bỏ thêm đậu phụng rang khô và giã dập, hành lá thái nhỏ, rau thơm, ớt đỏ... Thông thường nước dùng rất ít.");
-        ArrayList<Food> foods =new ArrayList<>();
-        foods.add(food);        foods.add(food); foods.add(food); foods.add(food); foods.add(food);
-
-        FoodSavedAdapter foodAdapter = new FoodSavedAdapter(getActivity(),R.layout.saved, foods);
-        listView.setAdapter(foodAdapter);
+        UserService.getSavedFoodsByUserId(new UserService.ISavedFoodsByUserIdCallback() {
+            @Override
+            public void onCallback(List<String> foodIds) {
+                Log.d("xxx foodIds", foodIds.toString());
+                if (foodIds.size() > 0) {
+                    addFoodToListView(foodIds.get(0), listView);
+                }
+                for (int i = 1; i < foodIds.size(); i++) {
+                    addFoodToListView(foodIds.get(i), null);
+                }
+            }
+        });
         return view;
+    }
+
+    private void addFoodToListView(String foodId, final ListView listView) {
+        FoodService.getFoodById(foodId, new FoodService.IFoodsCallback() {
+            @Override
+            public void onCallback(Food food) {
+                saveFoods.add(food);
+                Log.d("xxx food", "length" + saveFoods.size());
+
+                if (saveFoods.size() == 1 && listView != null) {
+                    foodAdapter = new FoodSavedAdapter(getActivity(), R.layout.saved, saveFoods);
+                    listView.setAdapter(foodAdapter);
+                } else {
+                    foodAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -145,6 +145,25 @@ public class FoodService extends Firebase {
         });
     }
 
+    public static void getFoodById(String foodId, final IFoodsCallback iFoodsCallback) {
+        DatabaseReference foodRef = database.getReference("foods").child(foodId);
+        foodRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {//
+                    Food food = dataSnapshot.getValue(Food.class);
+                    Log.d("xxx food", dataSnapshot.getValue().toString());
+                    iFoodsCallback.onCallback(food);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public static void getFoodIngredientsById(String foodId, final IFoodIngredientsCallback iFoodIngredientsCallback) {
         DatabaseReference ingredientRef = database.getReference("foodIngredients").child(foodId);
         ingredientRef.addValueEventListener(new ValueEventListener() {
@@ -224,14 +243,12 @@ public class FoodService extends Firebase {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    //Log.d("xxx", "onDataChange Likes: " + dataSnapshot.toString());
                     List<String> likes = new ArrayList<>();
                     for (DataSnapshot userLikes : dataSnapshot.getChildren()) {
-                        if (userLikes.getKey().compareTo("true") == 0) {
+                        if (userLikes.getValue(Boolean.class)) {
                             likes.add(userLikes.getKey());
                         }
                     }
-                    //Log.d("xxx", "Likes: " + likes.toString());
                     iFoodLikesCallback.onCallback(likes);
                 }
             }

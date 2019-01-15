@@ -1,6 +1,7 @@
 package com.hxtruonglhsang.cooky.service;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -69,7 +70,7 @@ public class UserService {
                 if (dataSnapshot.exists()) {
                     List<String> foodIds = new ArrayList<>();
                     for (DataSnapshot foodId : dataSnapshot.getChildren()) {
-                        if (foodId.getKey().compareTo("true") == 0) {
+                        if (foodId.getValue(Boolean.class)) {
                             foodIds.add(foodId.getKey());
                         }
                     }
@@ -84,7 +85,8 @@ public class UserService {
         });
     }
 
-    public static void getSavedFoodsByUserId(final String userId, final ISavedFoodsByUserIdCallback iSavedFoodsByUserIdCallback) {
+    public static void getSavedFoodsByUserId(final ISavedFoodsByUserIdCallback iSavedFoodsByUserIdCallback) {
+        String userId = Firebase.getUserId();
         DatabaseReference userRef = Firebase.database.getReference("savedUserFoods").child(userId);
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -92,7 +94,7 @@ public class UserService {
                 if (dataSnapshot.exists()) {
                     List<String> foodIds = new ArrayList<>();
                     for (DataSnapshot foodId : dataSnapshot.getChildren()) {
-                        if (foodId.getKey().compareTo("true") == 0) {
+                        if (foodId.getValue(Boolean.class)) {
                             foodIds.add(foodId.getKey());
                         }
                     }
