@@ -19,7 +19,10 @@ import android.widget.Toast;
 import com.hxtruonglhsang.cooky.LoginActivity;
 import com.hxtruonglhsang.cooky.MainActivity;
 import com.hxtruonglhsang.cooky.R;
+import com.hxtruonglhsang.cooky.model.User;
 import com.hxtruonglhsang.cooky.service.Firebase;
+import com.hxtruonglhsang.cooky.service.UserService;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -68,10 +71,10 @@ public class ProfileFragment extends Fragment {
         } catch (Exception e) {
 
         }
-        TextView fullName = (TextView) view.findViewById(R.id.fullname);
-        TextView username = (TextView) view.findViewById(R.id.username);
-        ImageView avatar = (ImageView) view.findViewById(R.id.avatar);
-        TextView description = (TextView) view.findViewById(R.id.description);
+        final TextView fullName = (TextView) view.findViewById(R.id.fullname);
+        final TextView username = (TextView) view.findViewById(R.id.username);
+        final ImageView avatar = (ImageView) view.findViewById(R.id.avatar);
+        final TextView description = (TextView) view.findViewById(R.id.description);
         Button editButton = (Button) view.findViewById(R.id.btnEdit);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +91,16 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
 
+            }
+        });
+
+        UserService.getUserById(null, new UserService.IUserByIdCallback() {
+            @Override
+            public void onCallback(User user) {
+                username.setText(user.getUserName());
+                description.setText(user.getDescription());
+                fullName.setText(user.getFullName());
+                Picasso.with(getContext()).load(user.getAvatar()).error(R.mipmap.ic_launcher).into(avatar);
             }
         });
 

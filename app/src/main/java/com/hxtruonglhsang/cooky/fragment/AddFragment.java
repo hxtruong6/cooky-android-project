@@ -19,12 +19,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.hxtruonglhsang.cooky.R;
 import com.hxtruonglhsang.cooky.model.Food;
 import com.hxtruonglhsang.cooky.model.Ingredient;
 import com.hxtruonglhsang.cooky.model.Step;
+import com.hxtruonglhsang.cooky.service.Firebase;
 import com.hxtruonglhsang.cooky.service.FoodService;
+import com.hxtruonglhsang.cooky.service.UserService;
 import com.hxtruonglhsang.cooky.utils.Constant;
 import com.hxtruonglhsang.cooky.utils.Utils;
 
@@ -33,11 +36,11 @@ import java.util.List;
 
 
 public class AddFragment extends Fragment {
-    private Button btnSave,btnAddIngredient,btnAddStep;
+    private Button btnSave, btnAddIngredient, btnAddStep;
     private ImageView img;
     private ProgressBar progressBar;
-    private LinearLayout parentLayout,parentLayoutStep;
-    private TextView txtName,txtDesciption;
+    private LinearLayout parentLayout, parentLayoutStep;
+    private TextView txtName, txtDesciption;
     private Food food;
 
     List<Ingredient> ingredientList;
@@ -77,7 +80,7 @@ public class AddFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add, container, false);
-        food=new Food();
+        food = new Food();
 
         getElementFromFagment(view);
 
@@ -88,18 +91,18 @@ public class AddFragment extends Fragment {
 
         btnSave = (Button) view.findViewById(R.id.save);
         btnAddIngredient = (Button) view.findViewById(R.id.ingredientAdd);
-        btnAddStep = (Button)view.findViewById(R.id.stepAdd) ;
+        btnAddStep = (Button) view.findViewById(R.id.stepAdd);
         img = (ImageView) view.findViewById(R.id.selectImg);
-        parentLayout= (LinearLayout) view.findViewById(R.id.parentLayout);
-        parentLayoutStep= (LinearLayout) view.findViewById(R.id.parentLayoutStep);
+        parentLayout = (LinearLayout) view.findViewById(R.id.parentLayout);
+        parentLayoutStep = (LinearLayout) view.findViewById(R.id.parentLayoutStep);
 
-        txtDesciption=(TextView)view.findViewById(R.id.txtDescription);
-        txtName=(TextView)view.findViewById(R.id.txtName);
+        txtDesciption = (TextView) view.findViewById(R.id.txtDescription);
+        txtName = (TextView) view.findViewById(R.id.txtName);
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, Constant.REQUEST_CODE_IMAGE);
             }
         });
@@ -108,28 +111,30 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                ingredientList=getDataFromIngredient();
-                stepList=getDataFromStep();
-                String nameFood=txtName.getText().toString();
+                ingredientList = getDataFromIngredient();
+                stepList = getDataFromStep();
+                String nameFood = txtName.getText().toString();
 
-                if(ingredientList!=null&&stepList!=null&&nameFood!=""){
+                if (ingredientList != null && stepList != null && nameFood != "") {
                     food.setName(nameFood);
                     food.setIngredients(ingredientList);
                     food.setSteps(stepList);
-                    food.setUserId("user001");//test
+                    food.setUserId(UserService.currentUser.getId());
+                    food.setUserName(UserService.currentUser.getUserName());
                     food.setDescription(txtDesciption.getText().toString());
 
                     Utils.uploadImage(getContext(), img, "image", new Utils.UploadImageCallBack() {
                         @Override
                         public void onCallback(String url) {
-                            List<String> images =new ArrayList<>();
+                            List<String> images = new ArrayList<>();
                             images.add(url);
                             food.setImages(images);
 
                             FoodService.saveFood(food);
                         }
                     });
-                }else Toast.makeText(getContext(),"Không được bỏ trống !",Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(getContext(), "Không được bỏ trống !", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -138,7 +143,7 @@ public class AddFragment extends Fragment {
             public void onClick(View v) {
                 LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View rowView = inflater.inflate(R.layout.ingredient_field, null);
-                Button btnDelete = (Button)rowView.findViewById(R.id.deleteFiledIngradient);
+                Button btnDelete = (Button) rowView.findViewById(R.id.deleteFiledIngradient);
                 btnDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -153,8 +158,8 @@ public class AddFragment extends Fragment {
             public void onClick(View v) {
                 LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View rowView = inflater.inflate(R.layout.step_field, null);
-                TextView name=(TextView)rowView.findViewById(R.id.steapName);
-                name.setText("Bước "+(parentLayoutStep.getChildCount()+1)+":");
+                TextView name = (TextView) rowView.findViewById(R.id.steapName);
+                name.setText("Bước " + (parentLayoutStep.getChildCount() + 1) + ":");
 
 
                 parentLayoutStep.addView(rowView, parentLayoutStep.getChildCount());
@@ -163,16 +168,16 @@ public class AddFragment extends Fragment {
     }
 
     private List<Step> getDataFromStep() {
-        List<Step> steps=new ArrayList<>();
+        List<Step> steps = new ArrayList<>();
 
-        for (int i=0;i<parentLayoutStep.getChildCount();i++){
-            Step step =new Step();
-            View view =parentLayoutStep.getChildAt(i);
+        for (int i = 0; i < parentLayoutStep.getChildCount(); i++) {
+            Step step = new Step();
+            View view = parentLayoutStep.getChildAt(i);
 
-            EditText description= (EditText)view.findViewById(R.id.descriptionStep);
+            EditText description = (EditText) view.findViewById(R.id.descriptionStep);
 
             step.setDescription(description.getText().toString());
-            step.setStepNumber(i+1);
+            step.setStepNumber(i + 1);
 
             steps.add(step);
         }
@@ -182,12 +187,12 @@ public class AddFragment extends Fragment {
 
     private List<Ingredient> getDataFromIngredient() {
         List<Ingredient> ingredients = new ArrayList<>();
-        for (int i=0;i<parentLayout.getChildCount();i++){
-            Ingredient ingredient =new Ingredient();
-            View view =parentLayout.getChildAt(i);
-            EditText nameIngredient= (EditText)view.findViewById(R.id.nameIngedient);
-            EditText amount= (EditText)view.findViewById(R.id.amountIngerdient);
-            EditText type= (EditText)view.findViewById(R.id.typeIngerdient);
+        for (int i = 0; i < parentLayout.getChildCount(); i++) {
+            Ingredient ingredient = new Ingredient();
+            View view = parentLayout.getChildAt(i);
+            EditText nameIngredient = (EditText) view.findViewById(R.id.nameIngedient);
+            EditText amount = (EditText) view.findViewById(R.id.amountIngerdient);
+            EditText type = (EditText) view.findViewById(R.id.typeIngerdient);
 
             try {
                 ingredient.setName(nameIngredient.getText().toString());
@@ -195,7 +200,9 @@ public class AddFragment extends Fragment {
                 ingredient.setType(type.getText().toString());
 
                 ingredients.add(ingredient);
-            }catch (Exception e){return null;}
+            } catch (Exception e) {
+                return null;
+            }
 
         }
 
@@ -204,7 +211,7 @@ public class AddFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==Constant.REQUEST_CODE_IMAGE && resultCode == Constant.RESULT_OK && data!=null){
+        if (requestCode == Constant.REQUEST_CODE_IMAGE && resultCode == Constant.RESULT_OK && data != null) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             img.setImageBitmap(bitmap);
         }

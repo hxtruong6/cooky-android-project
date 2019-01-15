@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 public class UserService {
+    public static User currentUser;
+
     public static void updateUser(User user) {
         DatabaseReference userRef = Firebase.database.getReference("users");
         Map<String, Object> map = user.toUserInfoMap();
@@ -45,7 +47,8 @@ public class UserService {
         });
     }
 
-    public static void getUserById(final String userId, final IUserByIdCallback iUserByIdCallback) {
+    public static void getCurrentUser(final IUserByIdCallback iUserByIdCallback) {
+        String userId = Firebase.getUserId();
         DatabaseReference userRef = Firebase.database.getReference("users").child(userId);
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -61,6 +64,25 @@ public class UserService {
             }
         });
     }
+
+    public static void getUserById(String userId, final IUserByIdCallback iUserByIdCallback) {
+        if (userId == null ) userId = Firebase.getUserId();
+        DatabaseReference userRef = Firebase.database.getReference("users").child(userId);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    iUserByIdCallback.onCallback(dataSnapshot.getValue(User.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     public static void getFoodsByUserId(final String userId, final IFoodsByUserIdCallback iFoodsByUserIdCallback) {
         DatabaseReference userRef = Firebase.database.getReference("userFoods").child(userId);

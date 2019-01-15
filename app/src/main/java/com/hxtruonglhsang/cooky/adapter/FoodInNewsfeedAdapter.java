@@ -50,12 +50,12 @@ public class FoodInNewsfeedAdapter extends ArrayAdapter<Food> {
 
         Food food = foodArrayList.get(position);
         try {
-            user.setText(food.getUserId());
+            user.setText(food.getUserName());
             foodName.setText(food.getName());
-            foodDescription.setText(food.getDescription().substring(0, food.getDescription().length() > 80 ? 80 : food.getDescription().length()-1) + "...");
+            foodDescription.setText(food.getDescription().substring(0, food.getDescription().length() > 80 ? 80 : food.getDescription().length() - 1) + "...");
             Picasso.with(context).load(food.getImages().get(0)).error(R.mipmap.ic_launcher).into(imageList);
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -118,8 +118,7 @@ public class FoodInNewsfeedAdapter extends ArrayAdapter<Food> {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(context, "Failed to load comments.",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Failed to load comments.", Toast.LENGTH_SHORT).show();
             }
         };
         FoodService.displayCommentsReadltime(foodId, childEventListener);

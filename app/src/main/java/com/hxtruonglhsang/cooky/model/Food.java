@@ -123,6 +123,7 @@ public class Food {
         result.put("name", name);
         result.put("images", images);
         result.put("description", description);
+        result.put("userName", userName);
         return result;
     }
 

@@ -14,28 +14,25 @@ public class User {
     private String userName;
     private String password;
     private String fullName;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     private String email;
+    private String description;
+
+
+    private String avatar;
     private ArrayList<String> savedFoods;  // save list foodId in database
 
     public User() {
 
     }
 
-    public User(String id, String userName, String password, String fullName, String email) {
+    public User(String id, String userName, String password, String fullName, String email, String description, String avatar) {
         this.id = id;
         this.email = email;
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;
+        this.description = description;
+        this.avatar = avatar;
     }
 
     public User(String id, String userName, String email, String password) {
@@ -43,6 +40,14 @@ public class User {
         this.userName = userName;
         this.password = password;
         this.email = email;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public ArrayList<String> getSavedFoods() {
@@ -85,12 +90,32 @@ public class User {
         this.fullName = fullName;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
     @Exclude
     public Map<String, Object> toUserInfoMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("userName", userName);
         result.put("email", email);
         result.put("fullName", fullName);
+        result.put("description", description);
+        result.put("avatar", avatar);
         return result;
     }
 

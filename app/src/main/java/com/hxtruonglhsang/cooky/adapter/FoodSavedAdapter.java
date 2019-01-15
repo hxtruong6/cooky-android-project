@@ -37,7 +37,7 @@ public class FoodSavedAdapter extends ArrayAdapter<Food> {
 
         Food food=foodArrayList.get(position);
 
-        user.setText(food.getUserId());
+        user.setText(food.getUserName());
         foodName.setText(food.getName());
         Picasso.with(context).load(food.getImages().get(0)).error(R.mipmap.ic_launcher).into(imageList);
 

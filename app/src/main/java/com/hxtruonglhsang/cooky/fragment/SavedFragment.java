@@ -56,11 +56,9 @@ public class SavedFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_saved, container, false);
         final ListView listView = (ListView) view.findViewById(R.id.listviewSaved);
 
-
         UserService.getSavedFoodsByUserId(new UserService.ISavedFoodsByUserIdCallback() {
             @Override
             public void onCallback(List<String> foodIds) {
-                Log.d("xxx foodIds", foodIds.toString());
                 saveFoods.clear();
                 if (foodIds.size() > 0) {
                     addFoodToListView(foodIds.get(0), listView);
@@ -78,8 +76,6 @@ public class SavedFragment extends Fragment {
             @Override
             public void onCallback(Food food) {
                 saveFoods.add(food);
-                Log.d("xxx food", "length" + saveFoods.size());
-
                 if (saveFoods.size() == 1 && listView != null) {
                     foodAdapter = new FoodSavedAdapter(getActivity(), R.layout.saved, saveFoods);
                     listView.setAdapter(foodAdapter);

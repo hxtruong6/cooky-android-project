@@ -35,8 +35,8 @@ public class FoodService extends Firebase {
         food.setId(key);
         Map<String, Object> foodValue = food.toFoodGeneralInfoMap();
         String userId = Firebase.getUserId();
-        foodValue.put("userId", Firebase.getUserId());
-        foodRef.setValue(foodValue);
+        foodValue.put("userId", userId);
+        foodRef.updateChildren(foodValue);
 
         rootRef.child("foodIngredients").child(key).updateChildren(food.toFoodIngredientsMap());
         rootRef.child("foodSteps").child(key).updateChildren(food.toFoodStepsMap());
