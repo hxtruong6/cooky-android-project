@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.hxtruonglhsang.cooky.model.User;
@@ -67,7 +67,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void handleDisplayUI() {
         ImageView logo = findViewById(R.id.logoApp);
-//        Glide.with(getApplicationContext()).load(R.drawable.movingsafety).into(logo);
+        Glide.with(getApplicationContext()).load(R.drawable.icon_primary_color).into(logo);
 
         String normalText = "Already a member? ";
         String boldText = "Login";
@@ -87,7 +87,7 @@ public class SignupActivity extends AppCompatActivity {
 
         final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this, R.style.Theme_AppCompat);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage("Đang tạo tài khoản ...");
         progressDialog.show();
 
         final String name = _nameText.getText().toString();
@@ -135,7 +135,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Sign up failed. Check email or password again!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Đăng ký thất bại!", Toast.LENGTH_LONG).show();
         _signupButton.setEnabled(true);
     }
 

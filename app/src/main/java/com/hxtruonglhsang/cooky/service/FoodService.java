@@ -215,8 +215,8 @@ public class FoodService extends Firebase {
     }
 
     public static void getFoodStepsById(String foodId, final IFoodStepsCallback iFoodStepsCallback) {
-        DatabaseReference ingredientRef = database.getReference("foodSteps").child(foodId);
-        ingredientRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference stepRef  = database.getReference("foodSteps").child(foodId);
+        stepRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {

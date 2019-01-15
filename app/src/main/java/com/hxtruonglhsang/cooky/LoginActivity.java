@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.hxtruonglhsang.cooky.fragment.HomeFragment;
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void handleDisplayUI() {
         ImageView logo = findViewById(R.id.logoApp);
-//        Glide.with(getApplicationContext()).load(R.drawable.movingsafety).into(logo);
+        Glide.with(getApplicationContext()).load(R.drawable.icon_primary_color).into(logo);
 
         String normalText = "No account yet? ";
         String boldText = "Create one";
@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.Theme_AppCompat);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
+        progressDialog.setMessage("Đang đăng nhập ...");
         progressDialog.show();
 
         String email = _emailText.getText().toString();
@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed. Invail email or password", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Đăng nhập thất bại", Toast.LENGTH_LONG).show();
         _loginButton.setEnabled(true);
     }
 
@@ -157,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError("Nhập email hợp lệ");
             valid = false;
         } else {
             _emailText.setError(null);
