@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.google.firebase.FirebaseApp;
+import com.hxtruonglhsang.cooky.LoginActivity;
 import com.hxtruonglhsang.cooky.MainActivity;
 import com.hxtruonglhsang.cooky.R;
 
@@ -37,7 +38,7 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
                 try {
                     Intent intent = new Intent(getApplicationContext(),
-                            MainActivity.class);
+                            LoginActivity.class);
                     startActivity(intent);
 
                     finish();
