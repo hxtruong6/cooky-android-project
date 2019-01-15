@@ -22,19 +22,20 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.hxtruonglhsang.cooky.model.Food;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Utils {
+    private static String downloadUrl = "";
+
     static FirebaseStorage storage = FirebaseStorage.getInstance();
     static ProgressBar progressBar;
-    public static String uploadImage(final Context context, ImageView img, String nameImg, ProgressBar progressBarFrom) {
-
-        progressBar=progressBarFrom;
-        String downloadUrl="";
+    public static void uploadImage(final Context context, final ImageView img, String nameImg, final UploadImageCallBack uploadImageCallBack) {
 
         StorageReference storageRef = storage.getReferenceFromUrl(Constant.URL_IMAGE_STORAGE);
 
@@ -62,20 +63,15 @@ public class Utils {
                 Uri url = uri.getResult();
 
                 Toast.makeText(context, "Upload Success", Toast.LENGTH_LONG).show();
-                Log.i("FBApp1 URL ", url.toString());
+
+                uploadImageCallBack.onCallback(url.toString());
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-
-                long persentUpload=taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount()*100;
-                if(persentUpload<100){
-                    progressBar.setVisibility(View.VISIBLE); //to show
-                }else  progressBar.setVisibility(View.GONE); // to hide
-
+                Toast.makeText(context, "Đang đăng bài, vui lòng đợi ....", Toast.LENGTH_LONG).show();
             }
         });
-        return downloadUrl;
     }
 
 
@@ -85,5 +81,9 @@ public class Utils {
 
     public static String objectToJson() {
         return null;
+    }
+
+    public interface UploadImageCallBack {
+        void onCallback(String url);
     }
 }

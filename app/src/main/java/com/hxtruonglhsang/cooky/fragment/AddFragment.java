@@ -3,50 +3,51 @@ package com.hxtruonglhsang.cooky.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.hxtruonglhsang.cooky.R;
+import com.hxtruonglhsang.cooky.model.Food;
+import com.hxtruonglhsang.cooky.model.Ingredient;
+import com.hxtruonglhsang.cooky.model.Step;
+import com.hxtruonglhsang.cooky.service.FoodService;
 import com.hxtruonglhsang.cooky.utils.Constant;
 import com.hxtruonglhsang.cooky.utils.Utils;
 
-import java.io.ByteArrayOutputStream;
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class AddFragment extends Fragment {
-    private Button btnSave;
+    private Button btnSave,btnAddIngredient,btnAddStep;
     private ImageView img;
     private ProgressBar progressBar;
+    private LinearLayout parentLayout,parentLayoutStep;
+    private TextView txtName,txtDesciption;
+    private Food food;
 
-    FirebaseStorage storage = FirebaseStorage.getInstance();
+    List<Ingredient> ingredientList;
+    List<Step> stepList;
+
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
     public AddFragment() {
@@ -76,6 +77,7 @@ public class AddFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add, container, false);
+        food=new Food();
 
         getElementFromFagment(view);
 
@@ -83,10 +85,16 @@ public class AddFragment extends Fragment {
     }
 
     private void getElementFromFagment(View view) {
-        btnSave = (Button) view.findViewById(R.id.save);
-        img = (ImageView) view.findViewById(R.id.selectImg);
-        progressBar=(ProgressBar)view.findViewById(R.id.progressBar);
 
+        btnSave = (Button) view.findViewById(R.id.save);
+        btnAddIngredient = (Button) view.findViewById(R.id.ingredientAdd);
+        btnAddStep = (Button)view.findViewById(R.id.stepAdd) ;
+        img = (ImageView) view.findViewById(R.id.selectImg);
+        parentLayout= (LinearLayout) view.findViewById(R.id.parentLayout);
+        parentLayoutStep= (LinearLayout) view.findViewById(R.id.parentLayoutStep);
+
+        txtDesciption=(TextView)view.findViewById(R.id.txtDescription);
+        txtName=(TextView)view.findViewById(R.id.txtName);
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,9 +107,92 @@ public class AddFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.uploadImage(getContext(),img,"image",progressBar);
+
+                ingredientList=getDataFromIngredient();
+                stepList=getDataFromStep();
+                String nameFood=txtName.getText().toString();
+
+                food.setName(nameFood);
+                food.setIngredients(ingredientList);
+                food.setSteps(stepList);
+                food.setUserId("user001");//test
+                food.setDescription(txtDesciption.getText().toString());
+
+                Utils.uploadImage(getContext(), img, "image", new Utils.UploadImageCallBack() {
+                    @Override
+                    public void onCallback(String url) {
+                        List<String> images =new ArrayList<>();
+                        images.add(url);
+                        food.setImages(images);
+
+                        FoodService.saveFood(food);
+                    }
+                });
+
             }
         });
+        btnAddIngredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View rowView = inflater.inflate(R.layout.ingredient_field, null);
+                Button btnDelete = (Button)rowView.findViewById(R.id.deleteFiledIngradient);
+                btnDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        parentLayout.removeView((View) v.getParent());
+                    }
+                });
+                parentLayout.addView(rowView, parentLayout.getChildCount() - 1);
+            }
+        });
+        btnAddStep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View rowView = inflater.inflate(R.layout.step_field, null);
+                TextView name=(TextView)rowView.findViewById(R.id.steapName);
+                name.setText("Bước "+(parentLayoutStep.getChildCount()+1)+":");
+                parentLayoutStep.addView(rowView, parentLayoutStep.getChildCount() - 1);
+            }
+        });
+    }
+
+    private List<Step> getDataFromStep() {
+        List<Step> steps=new ArrayList<>();
+
+        for (int i=0;i<parentLayoutStep.getChildCount();i++){
+            Step step =new Step();
+            View view =parentLayoutStep.getChildAt(i);
+
+            EditText description= (EditText)view.findViewById(R.id.descriptionStep);
+
+            step.setDescription(description.getText().toString());
+            step.setStepNumber(i+1);
+
+            steps.add(step);
+        }
+
+        return steps;
+    }
+
+    private List<Ingredient> getDataFromIngredient() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        for (int i=0;i<parentLayout.getChildCount();i++){
+            Ingredient ingredient =new Ingredient();
+            View view =parentLayout.getChildAt(i);
+            EditText nameIngredient= (EditText)view.findViewById(R.id.nameIngedient);
+            EditText amount= (EditText)view.findViewById(R.id.amountIngerdient);
+            EditText type= (EditText)view.findViewById(R.id.typeIngerdient);
+
+            ingredient.setName(nameIngredient.getText().toString());
+            ingredient.setAmount(Float.parseFloat(amount.getText().toString()));
+            ingredient.setType(type.getText().toString());
+
+            ingredients.add(ingredient);
+        }
+
+        return ingredients;
     }
 
     @Override
@@ -137,7 +228,9 @@ public class AddFragment extends Fragment {
         mListener = null;
     }
 
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
+
 }

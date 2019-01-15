@@ -49,11 +49,15 @@ public class FoodInNewsfeedAdapter extends ArrayAdapter<Food> {
         CheckBox like = (CheckBox) convertView.findViewById(R.id.ck_like);
 
         Food food = foodArrayList.get(position);
+        try {
+            user.setText(food.getUserId());
+            foodName.setText(food.getName());
+            foodDescription.setText(food.getDescription().substring(0, food.getDescription().length() > 80 ? 80 : food.getDescription().length()-1) + "...");
+            Picasso.with(context).load(food.getImages().get(0)).error(R.mipmap.ic_launcher).into(imageList);
 
-        user.setText(food.getUserId());
-        foodName.setText(food.getName());
-        foodDescription.setText(food.getDescription().substring(0, food.getDescription().length() > 80 ? 80 : food.getDescription().length()) + "...");
-        Picasso.with(context).load(food.getImages().get(0)).error(R.mipmap.ic_launcher).into(imageList);
+        }catch (Exception e){
+
+        }
 
         if (food.getLikes() != null) {
 //            likeNumber.setText(food.getLikes().size());
