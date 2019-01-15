@@ -112,22 +112,24 @@ public class AddFragment extends Fragment {
                 stepList=getDataFromStep();
                 String nameFood=txtName.getText().toString();
 
-                food.setName(nameFood);
-                food.setIngredients(ingredientList);
-                food.setSteps(stepList);
-                food.setUserId("user001");//test
-                food.setDescription(txtDesciption.getText().toString());
+                if(ingredientList!=null&&stepList!=null&&nameFood!=""){
+                    food.setName(nameFood);
+                    food.setIngredients(ingredientList);
+                    food.setSteps(stepList);
+                    food.setUserId("user001");//test
+                    food.setDescription(txtDesciption.getText().toString());
 
-                Utils.uploadImage(getContext(), img, "image", new Utils.UploadImageCallBack() {
-                    @Override
-                    public void onCallback(String url) {
-                        List<String> images =new ArrayList<>();
-                        images.add(url);
-                        food.setImages(images);
+                    Utils.uploadImage(getContext(), img, "image", new Utils.UploadImageCallBack() {
+                        @Override
+                        public void onCallback(String url) {
+                            List<String> images =new ArrayList<>();
+                            images.add(url);
+                            food.setImages(images);
 
-                        FoodService.saveFood(food);
-                    }
-                });
+                            FoodService.saveFood(food);
+                        }
+                    });
+                }else Toast.makeText(getContext(),"Không được bỏ trống !",Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -185,11 +187,14 @@ public class AddFragment extends Fragment {
             EditText amount= (EditText)view.findViewById(R.id.amountIngerdient);
             EditText type= (EditText)view.findViewById(R.id.typeIngerdient);
 
-            ingredient.setName(nameIngredient.getText().toString());
-            ingredient.setAmount(Float.parseFloat(amount.getText().toString()));
-            ingredient.setType(type.getText().toString());
+            try {
+                ingredient.setName(nameIngredient.getText().toString());
+                ingredient.setAmount(Float.parseFloat(amount.getText().toString()));
+                ingredient.setType(type.getText().toString());
 
-            ingredients.add(ingredient);
+                ingredients.add(ingredient);
+            }catch (Exception e){return null;}
+
         }
 
         return ingredients;

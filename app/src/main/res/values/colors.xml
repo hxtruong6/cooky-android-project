@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ingredients>
+<resources>
     <color name="colorPrimary">#e63550</color>
     <color name="colorPrimaryDark">#6539ba</color>
     <color name="colorAccent">#FF4081</color>
     <color name="bgBottomNavigation">#e63550</color>
-</ingredients>
+    <color name="secondColor">#c6c5c5</color>
+    <color name="thirdColor">#41b75d</color>
+</resources>

@@ -62,14 +62,14 @@ public class Utils {
                 while(!uri.isComplete());
                 Uri url = uri.getResult();
 
-                Toast.makeText(context, "Upload Success", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Upload thành công.", Toast.LENGTH_LONG).show();
 
                 uploadImageCallBack.onCallback(url.toString());
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(context, "Đang đăng bài, vui lòng đợi ....", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Đang xử lý ...", Toast.LENGTH_LONG).show();
             }
         });
     }

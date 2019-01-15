@@ -13,41 +13,73 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ảnh thành quả:"
-                android:textColor="@color/colorPrimary"
-                android:textSize="17dp"
-                android:id="@+id/titleImg"/>
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:id="@+id/selectImg"
-                android:src="@drawable/no_image_icon"
-                android:layout_below="@+id/titleImg"/>
-            <EditText
+                android:src="@drawable/image_add_button"
+                android:layout_marginBottom="10dp"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/selectImg"
-                android:id="@+id/txtName"
-                android:hint="Tên món"
-                android:textAlignment="center"/>
-            <EditText
+                android:text="Thông tin món ăn:"
+                android:layout_below="@+id/txtName"
+                android:textColor="#ffffff"
+                android:background="@color/secondColor"
+                android:textStyle="bold"
+                android:padding="5dp"
+                android:textSize="17dp"/>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtDescription"
-                android:hint="Giới thiệu món ..."
-                android:lines="2"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Tên món: "
+                    android:layout_marginLeft="5dp"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/selectImg"
+                    android:id="@+id/txtName"
+                    android:hint="..."
+                    android:textAlignment="center"
+                    android:outlineAmbientShadowColor="#000000"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Giới thiệu: "
+                    android:layout_marginLeft="5dp"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtDescription"
+                    android:hint="...."
+                    android:textAlignment="center"
+                    android:lines="2"/>
+            </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nguyên liệu:"
                 android:layout_below="@+id/txtName"
                 android:textColor="#ffffff"
-                android:background="#71b752"
+                android:background="@color/secondColor"
+                android:textStyle="bold"
                 android:padding="5dp"
-                android:textSize="17dp"/>
+                android:textSize="17dp"
+                android:layout_marginTop="10dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,26 +90,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:layout_weight="7">
+                    android:layout_weight="7"
+                    android:layout_marginBottom="10dp">
                     <EditText
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Thịt bò"
                         android:layout_weight="4"
+                        android:hint="Thịt bò"
                         android:id="@+id/nameIngedient"/>
                     <EditText
-                        android:layout_width="wrap_content"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:hint="0.5"
-                        android:layout_weight="1"
                         android:textAlignment="center"
                         android:id="@+id/amountIngerdient"/>
                     <EditText
-                        android:layout_width="wrap_content"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         android:hint="kg"
-                        android:layout_weight="1"
                         android:textAlignment="center"
                         android:id="@+id/typeIngerdient"/>
                     <Button
@@ -89,22 +120,25 @@
             </LinearLayout>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/parentLayout"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="40dp"
                 android:id="@+id/ingredientAdd"
-                android:text="Thêm nguyên liệu" />
+                android:background="#41b75d"
+                android:text="Thêm"
+                android:textColor="#ffffff"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:drawableLeft="@drawable/plus"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Bước thực hiện:"
-                android:background="#71b752"
-                android:layout_below="@+id/txtName"
+                android:background="@color/secondColor"
                 android:textColor="#ffffff"
                 android:padding="5dp"
+                android:textStyle="bold"
                 android:textSize="17dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -134,20 +168,33 @@
             </LinearLayout>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/parentLayoutStep"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:id="@+id/stepAdd"
-                android:text="Thêm bước" />
+                android:background="#41b75d"
+                android:text="Thêm"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:textColor="#ffffff"
+                android:drawableLeft="@drawable/plus"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_margin="15dp"
+                android:layout_height="1dp"
+                android:background="@color/thirdColor"
+                android:paddingBottom="10dip"/>
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/save"
-                android:text="Đăng tin"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="50dp"
-                android:background="#639be4"/>
+                android:layout_marginBottom="70dp"
+                android:background="@drawable/button_shape"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:text="Đăng tin" />
         </LinearLayout>
 
     </ScrollView>
