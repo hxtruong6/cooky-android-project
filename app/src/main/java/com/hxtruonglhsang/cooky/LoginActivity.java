@@ -18,7 +18,9 @@ import android.widget.Toast;
 
 //import com.bumptech.glide.Glide;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.hxtruonglhsang.cooky.fragment.HomeFragment;
+import com.hxtruonglhsang.cooky.service.Firebase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -93,21 +95,28 @@ public class LoginActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own authentication logic here
-        if (email.compareTo("1612899@student.hcmus.edu.vn") != 0 || password.compareTo("123456") != 0) {
-            onLoginFailed();
-            return;
-        }
+        // Implement your own authentication logic here
+        Firebase.signInWithEmail(email, password, new Firebase.ISignInCallback() {
+            @Override
+            public void onCallback(FirebaseUser currentUser) {
+                if (currentUser != null) {
+                    onLoginSuccess();
+                } else {
+                    onLoginFailed();
+                }
+                progressDialog.dismiss();
+            }
+        });
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+//        new android.os.Handler().postDelayed(
+//                new Runnable() {
+//                    public void run() {
+//                        // On complete call either onLoginSuccess or onLoginFailed
+//                        onLoginSuccess();
+//                        // onLoginFailed();
+//                        progressDialog.dismiss();
+//                    }
+//                }, 3000);
     }
 
 
@@ -131,14 +140,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
-        Intent mainActivity = new Intent(this, HomeFragment.class);
+        Intent mainActivity = new Intent(this, MainActivity.class);
         startActivity(mainActivity);
-        //finish();
+        finish();
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
+        Toast.makeText(getBaseContext(), "Login failed. Invail email or password", Toast.LENGTH_LONG).show();
         _loginButton.setEnabled(true);
     }
 

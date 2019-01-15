@@ -11,6 +11,8 @@ import com.google.firebase.FirebaseApp;
 import com.hxtruonglhsang.cooky.LoginActivity;
 import com.hxtruonglhsang.cooky.MainActivity;
 import com.hxtruonglhsang.cooky.R;
+import com.hxtruonglhsang.cooky.fragment.HomeFragment;
+import com.hxtruonglhsang.cooky.service.Firebase;
 
 public class SplashScreen extends AppCompatActivity {
     private Handler mWaitHandler = new Handler();
@@ -18,7 +20,8 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //FirebaseApp.initializeApp(this);
+        Firebase.initializeApp();
+
         try {
             requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
             getSupportActionBar().hide(); // hide the title bar
@@ -27,20 +30,18 @@ public class SplashScreen extends AppCompatActivity {
         } catch (Exception e) {
 
         }
-
-
         setContentView(R.layout.activity_splash_screen);
-
-
         mWaitHandler.postDelayed(new Runnable() {
-
             @Override
             public void run() {
                 try {
-                    Intent intent = new Intent(getApplicationContext(),
-                            LoginActivity.class);
+                    Intent intent = null;
+                    if (Firebase.isSignedIn()) {
+                        intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    } else {
+                        intent = new Intent(getApplicationContext(), MainActivity.class);
+                    }
                     startActivity(intent);
-
                     finish();
                 } catch (Exception ignored) {
                     ignored.printStackTrace();

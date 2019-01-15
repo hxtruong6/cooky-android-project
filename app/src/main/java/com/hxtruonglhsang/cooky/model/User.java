@@ -14,17 +14,35 @@ public class User {
     private String userName;
     private String password;
     private String fullName;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    private String email;
     private ArrayList<String> savedFoods;  // save list foodId in database
 
     public User() {
 
     }
 
-    public User(String id, String userName, String password, String fullName) {
+    public User(String id, String userName, String password, String fullName, String email) {
         this.id = id;
+        this.email = email;
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;
+    }
+
+    public User(String id, String userName, String email, String password) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
     }
 
     public ArrayList<String> getSavedFoods() {
@@ -71,6 +89,7 @@ public class User {
     public Map<String, Object> toUserInfoMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("userName", userName);
+        result.put("email", email);
         result.put("fullName", fullName);
         return result;
     }

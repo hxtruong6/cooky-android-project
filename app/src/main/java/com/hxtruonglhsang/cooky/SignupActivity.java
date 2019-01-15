@@ -18,6 +18,11 @@ import android.widget.Toast;
 
 //import com.bumptech.glide.Glide;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.hxtruonglhsang.cooky.model.User;
+import com.hxtruonglhsang.cooky.service.Firebase;
+import com.hxtruonglhsang.cooky.service.UserService;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -73,8 +78,6 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void signup() {
-        Log.d(TAG, "Signup");
-
         if (!validate()) {
             onSignupFailed();
             return;
@@ -87,36 +90,52 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String name = _nameText.getText().toString();
+        final String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own signup logic here.
+        // Implement your own signup logic here.
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+        Firebase.signUpWithEmail(email, password, new Firebase.ISignUpCallback() {
+            @Override
+            public void onCallback(FirebaseUser currentUser) {
+                if (currentUser != null) {
+                    User user = new User();
+                    user.setId(currentUser.getUid());
+                    user.setEmail(currentUser.getEmail());
+                    user.setUserName(name);
+                    UserService.updateUser(user);
+                    onSignupSuccess();
+                } else {
+                    onSignupFailed();
+                }
+                progressDialog.dismiss();
+            }
+        });
+
+//        new android.os.Handler().postDelayed(
+//                new Runnable() {
+//                    public void run() {
+//                        // On complete call either onSignupSuccess or onSignupFailed
+//                        // depending on success
+//                        onSignupSuccess();
+//                        // onSignupFailed();
+//                        progressDialog.dismiss();
+//                    }
+//                }, 3000);
     }
 
 
     public void onSignupSuccess() {
-        _signupButton.setEnabled(true);
+        _signupButton.setEnabled(false);
         setResult(RESULT_OK, null);
-        // finish();
         Intent login = new Intent(this, LoginActivity.class);
         startActivity(login);
+        finish();
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
+        Toast.makeText(getBaseContext(), "Sign up failed. Check email or password again!", Toast.LENGTH_LONG).show();
         _signupButton.setEnabled(true);
     }
 
