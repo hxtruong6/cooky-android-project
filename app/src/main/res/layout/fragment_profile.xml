@@ -36,7 +36,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Le Hoang Sang"
                 android:textColor="@color/colorAccent"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
 
@@ -67,7 +67,7 @@
                 android:id="@+id/btnLogOut"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="50dp"
                 android:layout_marginLeft="70dp"
                 android:background="@drawable/button"
                 android:text="Đăng xuất"
