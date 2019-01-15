@@ -61,6 +61,7 @@ public class SavedFragment extends Fragment {
             @Override
             public void onCallback(List<String> foodIds) {
                 Log.d("xxx foodIds", foodIds.toString());
+                saveFoods.clear();
                 if (foodIds.size() > 0) {
                     addFoodToListView(foodIds.get(0), listView);
                 }
